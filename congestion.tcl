@@ -24,12 +24,27 @@ set n4 [$ns node]
 set n5 [$ns node]
 set n6 [$ns node]
 
+#Create a random generator
+set rng [new RNG]
+$rng seed 0
+
+#Create random delay variables
+set n2_n3_delay [new RandomVariable/Uniform]
+$n2_n3_delay set min_ 5
+$n2_n3_delay set max_ 25
+$n2_n3_delay use-rng $rng
+
+set n4_n6_delay [new RandomVariable/Uniform]
+$n4_n6_delay set min_ 5
+$n4_n6_delay set max_ 25
+$n4_n6_delay use-rng $rng
+
 #Create a duplex link between the nodes
 $ns duplex-link $n1 $n3 100Mb 5ms DropTail
-$ns duplex-link $n2 $n3 100Mb 5ms DropTail
+$ns duplex-link $n2 $n3 100Mb [expr [$n2_n3_delay value]]ms DropTail
 $ns duplex-link $n3 $n4 100kb 1ms DropTail
 $ns duplex-link $n4 $n5 100Mb 5ms DropTail
-$ns duplex-link $n4 $n6 100Mb  5ms DropTail
+$ns duplex-link $n4 $n6 100Mb [expr [$n4_n6_delay value]]ms DropTail
 
 #Set hints for nam
 $ns duplex-link-op $n1 $n3 orient right-down
