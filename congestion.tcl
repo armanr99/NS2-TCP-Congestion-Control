@@ -39,5 +39,24 @@ $ns duplex-link-op $n4 $n5 orient right-up
 $ns duplex-link-op $n4 $n6 orient right-down
 $ns duplex-link-op $n3 $n4 queuePos 0.5
 
+#Set tcp sending agents
+set tcp1 [new Agent/TCP/Reno]
+$tcp1 set ttl_ 64
+$ns attach-agent $n1 $tcp1
+
+set tcp2 [new Agent/TCP/Reno]
+$tcp2 set ttl_ 64
+$ns attach-agent $n2 $tcp2
+
+#Set tcp receiving agents
+set sink1 [new Agent/TCPSink]
+$ns attach-agent $n5 $sink1
+set sink2 [new Agent/TCPSink]
+$ns attach-agent $n6 $sink2
+
+#Establish traffic between senders and sinks
+$ns connect $tcp1 $sink1
+$ns connect $tcp2 $sink2
+
 #Run the simulation
 $ns run
