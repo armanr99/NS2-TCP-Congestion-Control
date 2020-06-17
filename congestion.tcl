@@ -73,5 +73,16 @@ $ns attach-agent $n6 $sink2
 $ns connect $tcp1 $sink1
 $ns connect $tcp2 $sink2
 
+#Schedule the connections data flow
+set ftp1 [new Application/FTP]
+$ftp1 attach-agent $tcp1
+$ns at 0.0 "$ftp1 start"
+$ns at 1000.0 "finish"
+
+set ftp2 [new Application/FTP]
+$ftp2 attach-agent $tcp2
+$ns at 0.0 "$ftp2 start"
+$ns at 1000.0 "finish"
+
 #Run the simulation
 $ns run
