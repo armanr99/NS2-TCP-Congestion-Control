@@ -54,6 +54,15 @@ $ns duplex-link-op $n4 $n5 orient right-up
 $ns duplex-link-op $n4 $n6 orient right-down
 $ns duplex-link-op $n3 $n4 queuePos 0.5
 
+#Set queue sizes
+$ns queue-limit $n3 $n1 10
+$ns queue-limit $n3 $n2 10
+$ns queue-limit $n3 $n4 10
+$ns queue-limit $n4 $n3 10
+$ns queue-limit $n4 $n5 10
+$ns queue-limit $n4 $n5 10
+$ns queue-limit $n4 $n6 10
+
 #Set tcp sending agents
 set tcp1 [new Agent/TCP/Reno]
 $tcp1 set ttl_ 64
@@ -77,11 +86,11 @@ $ns connect $tcp2 $sink2
 set ftp1 [new Application/FTP]
 $ftp1 attach-agent $tcp1
 $ns at 0.0 "$ftp1 start"
-$ns at 1000.0 "finish"
 
 set ftp2 [new Application/FTP]
 $ftp2 attach-agent $tcp2
 $ns at 0.0 "$ftp2 start"
+
 $ns at 1000.0 "finish"
 
 #Run the simulation
