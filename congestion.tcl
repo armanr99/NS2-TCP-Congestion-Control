@@ -6,8 +6,9 @@ if { $argc != 1 } {
 } else {
    if { [lindex $argv 0] == "Tahoe" } {
       set CONGESTION_ALGORITHM "TCP"
+   } else {
+      set CONGESTION_ALGORITHM "TCP/[lindex $argv 0]"
    }
-   set CONGESTION_ALGORITHM "TCP/[lindex $argv 0]"
 }
 
 #Create a simulator object
