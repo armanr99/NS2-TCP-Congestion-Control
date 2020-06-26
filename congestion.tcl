@@ -130,7 +130,7 @@ proc plotGoodput {tcpSource prevAck outfile} {
    set now [$ns now]
    set ack [$tcpSource set ack_]
 
-   puts  $outfile  "$now [expr ($ack - $prevAck) * 8.0]"
+   puts  $outfile  "$now [expr ($ack - $prevAck) * 8]"
    $ns at [expr $now + 1] "plotGoodput $tcpSource $ack $outfile"
 }
 
@@ -138,6 +138,21 @@ set goodputTcp1File [open  "goodput1.out" w]
 set goodputTcp2File [open  "goodput2.out" w]
 $ns at 0.0  "plotGoodput $tcp1 0 $goodputTcp1File"
 $ns at 0.0  "plotGoodput $tcp2 0 $goodputTcp2File"
+
+#Plot RTT data
+proc plotRTT {tcpSource outfile} {
+   global ns
+   set now [$ns now]
+   set rtt_ [$tcpSource set rtt_]
+
+   puts  $outfile  "$now $rtt_"
+   $ns at [expr $now + 1] "plotRTT $tcpSource $outfile"
+}
+
+set rttTcp1File [open  "rtt1.out" w]
+set rttTcp2File [open  "rtt2.out" w]
+$ns at 0.0  "plotRTT $tcp1 $rttTcp1File"
+$ns at 0.0  "plotRTT $tcp2 $rttTcp2File"
 
 #Run the simulation
 $ns run
