@@ -115,12 +115,14 @@ proc plotCwnd {tcpSource outfile} {
    set now [$ns now]
    set cwnd_ [$tcpSource set cwnd_]
 
-   puts  $outfile  "$now $cwnd_"
+   puts  $outfile  "$now,$cwnd_"
    $ns at [expr $now + 1] "plotCwnd $tcpSource $outfile"
 }
 
-set cwndTcp1File [open  "cwnd1.out" w]
-set cwndTcp2File [open  "cwnd2.out" w]
+set cwndTcp1File [open "cwnd1.csv" w]
+set cwndTcp2File [open "cwnd2.csv" w]
+puts  $cwndTcp1File  "time,cwnd"
+puts  $cwndTcp2File  "time,cwnd"
 $ns at 0.0  "plotCwnd $tcp1 $cwndTcp1File"
 $ns at 0.0  "plotCwnd $tcp2 $cwndTcp2File"
 
@@ -130,12 +132,14 @@ proc plotGoodput {tcpSource prevAck outfile} {
    set now [$ns now]
    set ack [$tcpSource set ack_]
 
-   puts  $outfile  "$now [expr ($ack - $prevAck) * 8]"
+   puts  $outfile  "$now,[expr ($ack - $prevAck) * 8]"
    $ns at [expr $now + 1] "plotGoodput $tcpSource $ack $outfile"
 }
 
-set goodputTcp1File [open  "goodput1.out" w]
-set goodputTcp2File [open  "goodput2.out" w]
+set goodputTcp1File [open "goodput1.csv" w]
+set goodputTcp2File [open "goodput2.csv" w]
+puts  $goodputTcp1File  "time,goodput"
+puts  $goodputTcp2File  "time,goodput"
 $ns at 0.0  "plotGoodput $tcp1 0 $goodputTcp1File"
 $ns at 0.0  "plotGoodput $tcp2 0 $goodputTcp2File"
 
@@ -145,12 +149,14 @@ proc plotRTT {tcpSource outfile} {
    set now [$ns now]
    set rtt_ [$tcpSource set rtt_]
 
-   puts  $outfile  "$now $rtt_"
+   puts  $outfile  "$now,$rtt_"
    $ns at [expr $now + 1] "plotRTT $tcpSource $outfile"
 }
 
-set rttTcp1File [open  "rtt1.out" w]
-set rttTcp2File [open  "rtt2.out" w]
+set rttTcp1File [open "rtt1.csv" w]
+set rttTcp2File [open "rtt2.csv" w]
+puts  $rttTcp1File  "time,rtt"
+puts  $rttTcp2File  "time,rtt"
 $ns at 0.0  "plotRTT $tcp1 $rttTcp1File"
 $ns at 0.0  "plotRTT $tcp2 $rttTcp2File"
 
