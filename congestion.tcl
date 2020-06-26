@@ -107,19 +107,34 @@ $ns at 1000.0 "$cbr2 stop"
 $ns at 1000.0 "finish"
 
 #Plot cwnd data
-proc PlotCwnd {tcpSource outfile} {
+proc plotCwnd {tcpSource outfile} {
    global ns
    set now [$ns now]
    set cwnd_ [$tcpSource set cwnd_]
 
    puts  $outfile  "$now $cwnd_"
-   $ns at [expr $now + 1] "PlotCwnd $tcpSource $outfile"
+   $ns at [expr $now + 1] "plotCwnd $tcpSource $outfile"
 }
 
 set cwndTcp1File [open  "cwnd1.out" w]
 set cwndTcp2File [open  "cwnd2.out" w]
-$ns at 0.0  "PlotCwnd $tcp1 $cwndTcp1File"
-$ns at 0.0  "PlotCwnd $tcp2 $cwndTcp2File"
+$ns at 0.0  "plotCwnd $tcp1 $cwndTcp1File"
+$ns at 0.0  "plotCwnd $tcp2 $cwndTcp2File"
+
+#Plot goodput data
+proc plotGoodput {tcpSource prevAck outfile} {
+   global ns
+   set now [$ns now]
+   set ack [$tcpSource set ack_]
+
+   puts  $outfile  "$now [expr ($ack - $prevAck) * 8.0]"
+   $ns at [expr $now + 1] "plotGoodput $tcpSource $ack $outfile"
+}
+
+set goodputTcp1File [open  "goodput1.out" w]
+set goodputTcp2File [open  "goodput2.out" w]
+$ns at 0.0  "plotGoodput $tcp1 0 $goodputTcp1File"
+$ns at 0.0  "plotGoodput $tcp2 0 $goodputTcp2File"
 
 #Run the simulation
 $ns run
