@@ -1,3 +1,12 @@
+#Get tcp congestion algorithm name from input
+if { $argc != 1 } {
+   puts "The congestion.tcl script requires tcp congestion alogirthm name as input"
+   puts "For example, ns congestion.tcl Newreno"
+   puts "Please try again."
+} else {
+   set CONGESTION_ALGORITHM [lindex $argv 0]
+}
+
 #Create a simulator object
 set ns [new Simulator]
 
@@ -18,7 +27,7 @@ proc finish {} {
 
 #Create the network nodes
 set n1 [$ns node]
-set n2 [$ns node]
+set n2 [$ns node] 
 set n3 [$ns node]
 set n4 [$ns node]
 set n5 [$ns node]
@@ -64,11 +73,11 @@ $ns queue-limit $n4 $n5 10
 $ns queue-limit $n4 $n6 10
 
 #Set tcp sending agents
-set tcp1 [new Agent/TCP/Reno]
+set tcp1 [new Agent/TCP/$CONGESTION_ALGORITHM]
 $tcp1 set ttl_ 64
 $ns attach-agent $n1 $tcp1
 
-set tcp2 [new Agent/TCP/Reno]
+set tcp2 [new Agent/TCP/$CONGESTION_ALGORITHM]
 $tcp2 set ttl_ 64
 $ns attach-agent $n2 $tcp2
 
