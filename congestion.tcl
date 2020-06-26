@@ -4,7 +4,10 @@ if { $argc != 1 } {
    puts "For example, ns congestion.tcl Newreno"
    puts "Please try again."
 } else {
-   set CONGESTION_ALGORITHM [lindex $argv 0]
+   if { [lindex $argv 0] == "Tahoe" } {
+      set CONGESTION_ALGORITHM "TCP"
+   }
+   set CONGESTION_ALGORITHM "TCP/[lindex $argv 0]"
 }
 
 #Create a simulator object
@@ -73,11 +76,11 @@ $ns queue-limit $n4 $n5 10
 $ns queue-limit $n4 $n6 10
 
 #Set tcp sending agents
-set tcp1 [new Agent/TCP/$CONGESTION_ALGORITHM]
+set tcp1 [new Agent/$CONGESTION_ALGORITHM]
 $tcp1 set ttl_ 64
 $ns attach-agent $n1 $tcp1
 
-set tcp2 [new Agent/TCP/$CONGESTION_ALGORITHM]
+set tcp2 [new Agent/$CONGESTION_ALGORITHM]
 $tcp2 set ttl_ 64
 $ns attach-agent $n2 $tcp2
 
