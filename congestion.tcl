@@ -79,10 +79,12 @@ $ns queue-limit $n4 $n6 10
 #Set tcp sending agents
 set tcp1 [new Agent/$CONGESTION_ALGORITHM]
 $tcp1 set ttl_ 64
+$tcp1 set fid_ 1
 $ns attach-agent $n1 $tcp1
 
 set tcp2 [new Agent/$CONGESTION_ALGORITHM]
 $tcp2 set ttl_ 64
+$tcp2 set fid_ 2
 $ns attach-agent $n2 $tcp2
 
 #Set tcp receiving agents
