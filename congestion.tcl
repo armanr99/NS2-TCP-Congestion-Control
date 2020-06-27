@@ -98,18 +98,16 @@ $ns connect $tcp1 $sink1
 $ns connect $tcp2 $sink2
 
 #Schedule the connections data flow
-set cbr1 [new Application/Traffic/CBR]
-$cbr1 set rate_ 5Mb
-$cbr1 attach-agent $tcp1
+set ftp1 [new Application/FTP]
+$ftp1 attach-agent $tcp1
 
-set cbr2 [new Application/Traffic/CBR]
-$cbr2 set rate_ 5Mb
-$cbr2 attach-agent $tcp2
+set ftp2 [new Application/FTP]
+$ftp2 attach-agent $tcp2
 
-$ns at 0 "$cbr1 start"
-$ns at 0 "$cbr2 start"
-$ns at 1000.0 "$cbr1 stop"
-$ns at 1000.0 "$cbr2 stop"
+$ns at 0.0 "$ftp1 start"
+$ns at 0.0 "$ftp2 start"
+$ns at 1000.0 "$ftp1 stop"
+$ns at 1000.0 "$ftp2 stop"
 $ns at 1000.0 "finish"
 
 #Plot cwnd data
